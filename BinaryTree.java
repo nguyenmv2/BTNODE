@@ -117,6 +117,7 @@ public class BinaryTree {
 	private class InOrderIterator implements Iterator<Integer> {
 
 	    private Stack<BTNode> st;
+	    private BTNode node;
 	    public InOrderIterator() {
 	    	//Complete this constructor.  You must put the stack in a state
 	    	// where the first call to "next" has the proper node at the top of the
@@ -126,21 +127,23 @@ public class BinaryTree {
 	            st.push (BinaryTree.this.root);
 	        }    
 	    }
-	    public int peeko() {
-	    	return st.peek().getValue();
-	    }
+	    
 	    public boolean hasNext() {
 	        return !st.empty();
 	    }
 
 	    public Integer next() {
 	    	
-	    	BTNode node = st.peek();
-	    	if ( node.getLeft() == null ){ node = st.pop(); }
-	    	if ( node.getLeft() != null) { st.push(node.getLeft());}
-	    	if ( node.getRight() != null ){ st.push(node.getRight());}
+			if (node != null ){
+	    		st.push(node);
+	    		node = node.getLeft();
+	    	} else {
+	    		
+	    		node = st.pop();
+	    		node = node.getRight();
+	    	}
 	    	
-	    	return new Integer(node.getValue());
+	    	
 	    }
 	    
 	    public void remove() {
