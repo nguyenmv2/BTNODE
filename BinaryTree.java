@@ -117,14 +117,16 @@ public class BinaryTree {
 	private class InOrderIterator implements Iterator<Integer> {
 
 	    private Stack<BTNode> st;
-	    private BTNode node;
 	    public InOrderIterator() {
 	    	//Complete this constructor.  You must put the stack in a state
 	    	// where the first call to "next" has the proper node at the top of the
 	    	// stack from which to return its value
 	    	st = new Stack<BTNode>();
-	    	if (BinaryTree.this.root != null) {
-	            st.push (BinaryTree.this.root);
+	    	BTNode node = root;
+	        while ( node != null ){
+	        	
+	        	st.push(node);
+	        	node = node.getLeft();
 	        }    
 	    }
 	    
@@ -133,17 +135,18 @@ public class BinaryTree {
 	    }
 
 	    public Integer next() {
+	    	BTNode temp  = st.pop();
+			while (temp.getLeft() != null && temp.getLeft() != root.getLeft()){
+				
+	    		st.push(temp.getLeft());
+	    		temp = temp.getLeft();
+			}
+	    	if (temp.getRight() != null) st.push( temp.getRight() );
+	    	//System.out.println( "Value: " +temp.getValue());
+	    	System.out.println( "Stack top: " + st.peek().getValue()+"\n");
+	    	return new Integer(temp.getValue());
 	    	
-			if (node != null ){
-	    		st.push(node);
-	    		node = node.getLeft();
-	    	} else {
-	    		
-	    		node = st.pop();
-	    		node = node.getRight();
-	    	}
-	    	
-	    	
+	
 	    }
 	    
 	    public void remove() {
@@ -151,7 +154,7 @@ public class BinaryTree {
 	    }
 	}
 	
-	private class PostOrderIterator implements Iterator<Integer> {
+	/*private class PostOrderIterator implements Iterator<Integer> {
 
 	    private Stack<BTNode> st;
 
@@ -170,7 +173,7 @@ public class BinaryTree {
 	    public void remove() {
 	        throw new UnsupportedOperationException();
 	    }
-	}
+	}*/
 
 
 
