@@ -3,10 +3,12 @@ public class BTNode {
 	private int value;
 	private BTNode left;
 	private BTNode right;
+	private boolean touched;
 	
 	BTNode() {
 		value = 0;
 		left = right = null;
+		touched = false;
 	}
 	
 	BTNode( int val ) {
@@ -123,6 +125,16 @@ public class BTNode {
 			left = right;
 			right= temp;
 		}
+	}
+	
+	public boolean isTouched(){
+		
+		return touched;
+	}
+	
+	public boolean setTouched(){
+		
+		return touched = true;
 	}
 
 }
