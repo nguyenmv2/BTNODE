@@ -122,12 +122,19 @@ public class BinaryTree {
 	    	// where the first call to "next" has the proper node at the top of the
 	    	// stack from which to return its value
 	    	st = new Stack<BTNode>();
-	    	BTNode node = root;
-	        while ( node != null ){
+	    	BTNode n = root;
+	    	left_push(n);
+	    	/*for ( int i = 0; i < st.size(); i++){
+	    		System.out.println(st.pop().getValue());}*/
+	    }
+	    
+	    public void left_push(BTNode node){
+	    	while ( node != null ){
 	        	
-	        	st.push(node);
+	    		st.push(node);
 	        	node = node.getLeft();
-	        }    
+	        	//System.out.println(st.peek().getValue());
+	    	}
 	    }
 	    
 	    public boolean hasNext() {
@@ -135,46 +142,57 @@ public class BinaryTree {
 	    }
 
 	    public Integer next() {
-	    	BTNode temp  = st.pop();
-			while (temp.getLeft() != null && temp.getLeft() != root.getLeft()){
-				
-	    		st.push(temp.getLeft());
-	    		temp = temp.getLeft();
-			}
-	    	if (temp.getRight() != null) st.push( temp.getRight() );
-	    	//System.out.println( "Value: " +temp.getValue());
-	    	System.out.println( "Stack top: " + st.peek().getValue()+"\n");
-	    	return new Integer(temp.getValue());
-	    	
-	
+	    	BTNode curr = st.pop();
+	    	BTNode val = curr;
+	    	curr = curr.getRight();
+	    	left_push(curr);
+	    	return new Integer(val.getValue());
 	    }
-	    
+
 	    public void remove() {
 	        throw new UnsupportedOperationException();
 	    }
 	}
 	
-	/*private class PostOrderIterator implements Iterator<Integer> {
+	
+	private class PostOrderIterator implements Iterator<Integer> {
 
 	    private Stack<BTNode> st;
-
+	    
 	    public PostOrderIterator() {
 	    	//Complete this constructor as above
+	    	BTNode n = root;
+	    	left_push(n);
 	    }
-
+	    
+	    public void left_push(BTNode node){
+	    	while ( node != null && node.isTouched() ){
+	        	
+	    		node.setTouched();
+	    		st.push(node);
+	        	node = node.getLeft();
+	        	//System.out.println(st.peek().getValue());
+	    	}
+	    }
 	    public boolean hasNext() {
 	        return !st.empty();
 	    }
 
 	    public Integer next() {
 	        //Complete this method
+	    	BTNode curr = st.peek();
+	    	BTNode val;
+	    	curr = curr.getRight();
+	    	left_push(curr);
+	    	val = st.pop();
+	    	return new Integer(val.getValue());
+	    	
 	    }
 
 	    public void remove() {
 	        throw new UnsupportedOperationException();
 	    }
-	}*/
-
+	}
 
 
 }
